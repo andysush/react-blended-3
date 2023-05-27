@@ -2,7 +2,6 @@ import {
   Container,
   SearchForm,
   Section,
-  Heading,
   Loader,
   CountryList,
 } from 'components';
@@ -11,19 +10,22 @@ import { useSearchParams } from 'react-router-dom';
 import { fetchByRegion } from 'service/country-service';
 
 export const CountrySearch = () => {
-  const [searchParams, setSearchparams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [countries, setCountries] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const region = searchParams.get('region');
 
     if (!region) return;
-
-    fetchByRegion(region).then(data => setCountries(data));
+    setIsLoading(true)
+    fetchByRegion(region).then(data => {
+      setCountries(data)
+    }).finally(()=> setIsLoading(false));
   }, [searchParams]);
 
   const onSubmit = region => {
-    setSearchparams({ region });
+    setSearchParams({ region });
   };
 
   return (
@@ -31,6 +33,7 @@ export const CountrySearch = () => {
       <Container>
         <SearchForm onSubmit={onSubmit} />
         <CountryList countries={countries} />
+        {isLoading && <Loader />}
       </Container>
     </Section>
   );
