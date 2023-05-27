@@ -8,3 +8,4 @@ export * from 'components/CountryList/CountryList';
 export * from 'components/CountryInfo/CountryInfo';
 export * from 'components/CountryInfo/CountryInfo.styled';
 export * from 'components/Loader/Loader';
+export * from 'components/GoBack/GoBack';
